@@ -10,6 +10,21 @@ base {
 	archivesName = project.archives_base_name
 }
 
+// All files sit at the repo root (GitHub's upload flattened the folders),
+// so tell Gradle to read the code and resources from there.
+sourceSets {
+	main {
+		java {
+			srcDirs = ['.']
+			include '*.java'
+		}
+		resources {
+			srcDirs = ['.']
+			include 'fabric.mod.json', 'voidclient.mixins.json'
+		}
+	}
+}
+
 repositories {
 }
 
@@ -24,6 +39,9 @@ processResources {
 	inputs.property "version", project.version
 	filesMatching("fabric.mod.json") {
 		expand "version": inputs.properties.version
+	}
+	from('en_us.json') {
+		into 'assets/voidclient/lang'
 	}
 }
 
