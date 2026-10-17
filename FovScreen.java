@@ -10,15 +10,17 @@ public class FovScreen extends ModuleScreen {
     }
 
     @Override
-    protected int addControls(int x, int y) {
+    protected int addRows() {
         ClientConfig c = VoidClient.CONFIG;
-        addRenderableWidget(Widgets.toggle(x, y, W, "Enabled", c.fovEnabled, v -> c.fovEnabled = v));
-        addRenderableWidget(Widgets.slider(x, y + GAP, W, "FOV", ClientConfig.FOV_MIN, ClientConfig.FOV_MAX,
-                "", c.fov, v -> c.fov = v));
-        addRenderableWidget(Widgets.slider(x, y + GAP * 2, W, "Zoom (hold key)", ClientConfig.ZOOM_MIN,
-                ClientConfig.ZOOM_MAX, "x", c.zoomFactor, v -> c.zoomFactor = v));
-        addRenderableWidget(Widgets.toggle(x, y + GAP * 3, W, "Ignore sprint/speed FOV",
-                c.ignoreFovEffects, v -> c.ignoreFovEffects = v));
-        return 4;
+        addRenderableWidget(Widgets.toggleRow(rowX(), rowY(0), rowW(), ROW_H, "Enabled",
+                () -> c.fovEnabled, v -> c.fovEnabled = v));
+        addRenderableWidget(Widgets.slider(rowX(), rowY(1), rowW(), ROW_H, "FOV",
+                ClientConfig.FOV_MIN, ClientConfig.FOV_MAX, "", c.fov, v -> c.fov = v));
+        addRenderableWidget(Widgets.slider(rowX(), rowY(2), rowW(), ROW_H, "Zoom (hold key)",
+                ClientConfig.ZOOM_MIN, ClientConfig.ZOOM_MAX, "x", c.zoomFactor, v -> c.zoomFactor = v));
+        addRenderableWidget(Widgets.toggleRow(rowX(), rowY(3), rowW(), ROW_H, "Ignore sprint/speed FOV",
+                () -> c.ignoreFovEffects, v -> c.ignoreFovEffects = v));
+        addBackRow(4, "< Back");
+        return 5;
     }
 }

@@ -10,11 +10,13 @@ public class BlurScreen extends ModuleScreen {
     }
 
     @Override
-    protected int addControls(int x, int y) {
+    protected int addRows() {
         ClientConfig c = VoidClient.CONFIG;
-        addRenderableWidget(Widgets.toggle(x, y, W, "Enabled", c.blurEnabled, v -> c.blurEnabled = v));
-        addRenderableWidget(Widgets.slider(x, y + GAP, W, "Blur", 1, 100, "%",
+        addRenderableWidget(Widgets.toggleRow(rowX(), rowY(0), rowW(), ROW_H, "Enabled",
+                () -> c.blurEnabled, v -> c.blurEnabled = v));
+        addRenderableWidget(Widgets.slider(rowX(), rowY(1), rowW(), ROW_H, "Blur", 1, 100, "%",
                 c.blurPercent, v -> c.blurPercent = v));
-        return 2;
+        addBackRow(2, "< Back");
+        return 3;
     }
 }
