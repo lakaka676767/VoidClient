@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "id": "voidclient",
+  "version": "${version}",
+  "name": "Void Client",
+  "description": "Client tweaks with an in-game menu: FOV changer, fullbright and blur.",
+  "authors": ["You"],
+  "environment": "client",
+  "entrypoints": {
+    "client": ["com.voidclient.VoidClient"]
+  },
+  "mixins": ["voidclient.mixins.json"],
+  "depends": {
+    "fabricloader": ">=0.18.0",
+    "minecraft": "~1.21.11",
+    "java": ">=21",
+    "fabric-api": "*"
+  }
+}
