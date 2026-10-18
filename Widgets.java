@@ -35,7 +35,7 @@ public final class Widgets {
         }
 
         @Override
-        public void renderWidget(GuiGraphics g, int mouseX, int mouseY, float partialTick) {
+        public void renderContents(GuiGraphics g, int mouseX, int mouseY, float partialTick) {
             int x = getX(), y = getY(), w = getWidth(), h = getHeight();
             boolean enabled = isOn.getAsBoolean();
             if (enabled) g.fill(x, y, x + w, y + h, Theme.ROW_ON);
@@ -57,7 +57,7 @@ public final class Widgets {
         }
 
         @Override
-        public void renderWidget(GuiGraphics g, int mouseX, int mouseY, float partialTick) {
+        public void renderContents(GuiGraphics g, int mouseX, int mouseY, float partialTick) {
             int x = getX(), y = getY(), w = getWidth(), h = getHeight();
             boolean hot = isHoveredOrFocused();
             if (hot) g.fill(x, y, x + w, y + h, Theme.ROW_HOVER);
