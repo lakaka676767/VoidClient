@@ -25,7 +25,6 @@ public class TimeScreen extends ModuleScreen {
         addRenderableWidget(Widgets.slider(x, rowY(1), w, ROW_H, "Time", 0, 23999,
                 TimeScreen::clock, c.timeOfDay, v -> c.timeOfDay = v));
 
-        // quick presets
         String[] names = {"Dawn", "Noon", "Dusk", "Night"};
         int[] ticks = {0, 6000, 12000, 18000};
         int bw = (w - 6) / 4;
@@ -37,8 +36,9 @@ public class TimeScreen extends ModuleScreen {
             }));
         }
 
-        addBackRow(3, "< Back");
-        return 4;
+        addKeyRow(3, "On/off key", VoidClient.timeKey);
+        addBackRow(4, "< Back");
+        return 5;
     }
 
     @Override

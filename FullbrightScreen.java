@@ -16,7 +16,8 @@ public class FullbrightScreen extends ModuleScreen {
                 () -> c.fullbrightEnabled, v -> c.fullbrightEnabled = v));
         addRenderableWidget(Widgets.slider(rowX(), rowY(1), rowW(), ROW_H, "Brightness", 1, 100, "%",
                 c.fullbrightPercent, v -> c.fullbrightPercent = v));
-        addBackRow(2, "< Back");
-        return 3;
+        addKeyRow(2, "On/off key", VoidClient.fullbrightKey);
+        addBackRow(3, "< Back");
+        return 4;
     }
 }

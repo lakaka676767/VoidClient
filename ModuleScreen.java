@@ -1,18 +1,22 @@
 package com.voidclient.screen;
 
+import com.mojang.blaze3d.platform.InputConstants;
 import com.voidclient.VoidClient;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.KeyMapping;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.input.KeyEvent;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.network.chat.Component;
+import org.lwjgl.glfw.GLFW;
 
 import java.util.Locale;
 
 /**
  * Base for every Void Client screen: a dark floating panel with a purple top line,
- * a title, and a vertical list of rows. The game world stays clear behind it.
- * Drag the title bar to move the panel; double-click it to put the panel back in the centre.
+ * a title, and a vertical list of rows. Drag the title bar to move it (double-click to re-centre).
+ * Also provides page buttons and "press a key" key-bind rows.
  */
 public abstract class ModuleScreen extends Screen {
     protected static final int PANEL_W = 170, PAD = 6, HEADER_H = 28, ROW_H = 18, STEP = 20;
@@ -21,6 +25,14 @@ public abstract class ModuleScreen extends Screen {
     private int panelX, panelY, panelH;
     private boolean dragging;
     private double grabX, grabY;
+
+    /** Pages: subclasses set pageCount in their constructor and branch on {@code page} in addRows(). */
+    protected int page = 0;
+    protected int pageCount = 1;
+    private int pageRow = -1;
+
+    /** The key mapping waiting for you to press a key (or null). */
+    private KeyMapping listening;
 
     protected ModuleScreen(String title, Screen parent) {
         super(Component.literal(title));
@@ -51,6 +63,36 @@ public abstract class ModuleScreen extends Screen {
         addRenderableWidget(Widgets.flat(rowX(), rowY(row), rowW(), ROW_H, label, b -> onClose()));
     }
 
+    /** A row with "<" and ">" buttons and "1 / 2" between them. */
+    protected void addPageRow(int row) {
+        pageRow = row;
+        int w = 30;
+        addRenderableWidget(Widgets.flat(rowX(), rowY(row), w, ROW_H, "<", b -> {
+            page = (page - 1 + pageCount) % pageCount;
+            this.rebuildWidgets();
+        }));
+        addRenderableWidget(Widgets.flat(rowX() + rowW() - w, rowY(row), w, ROW_H, ">", b -> {
+            page = (page + 1) % pageCount;
+            this.rebuildWidgets();
+        }));
+    }
+
+    /** A row that shows the key bound to {@code mapping}. Click it, then press the key you want. */
+    protected void addKeyRow(int row, String label, KeyMapping mapping) {
+        String keyName = mapping.isUnbound() ? "None" : mapping.getTranslatedKeyMessage().getString();
+        String text = listening == mapping ? label + ": Press a key..." : label + ": " + keyName;
+        addRenderableWidget(Widgets.flat(rowX(), rowY(row), rowW(), ROW_H, text, b -> {
+            listening = (listening == mapping) ? null : mapping;
+            this.rebuildWidgets();
+        }));
+    }
+
+    private void bind(KeyMapping mapping, InputConstants.Key key) {
+        mapping.setKey(key);
+        KeyMapping.resetMapping();
+        this.minecraft.options.save();
+    }
+
     // ------------------------------------------------------------------ layout
 
     private int centredX() {
@@ -63,6 +105,9 @@ public abstract class ModuleScreen extends Screen {
 
     @Override
     protected void init() {
+        pageRow = -1;
+        if (page >= pageCount) page = 0;
+
         // pass 1: only to count the rows so we know how tall the panel is
         panelX = centredX();
         panelY = 0;
@@ -84,14 +129,43 @@ public abstract class ModuleScreen extends Screen {
         this.rebuildWidgets();
     }
 
-    // ------------------------------------------------------------------ dragging
+    // ------------------------------------------------------------------ input
 
     private boolean inTitleBar(double mx, double my) {
         return mx >= panelX && mx < panelX + PANEL_W && my >= panelY && my < panelY + HEADER_H;
     }
 
     @Override
+    public boolean keyPressed(KeyEvent event) {
+        if (listening != null) {
+            KeyMapping mapping = listening;
+            listening = null;
+            int key = event.key();
+            if (key == GLFW.GLFW_KEY_ESCAPE) {
+                // cancel, keep the old key
+            } else if (key == GLFW.GLFW_KEY_DELETE || key == GLFW.GLFW_KEY_BACKSPACE) {
+                bind(mapping, InputConstants.UNKNOWN);
+            } else {
+                bind(mapping, InputConstants.Type.KEYSYM.getOrCreate(key));
+            }
+            this.rebuildWidgets();
+            return true;
+        }
+        return super.keyPressed(event);
+    }
+
+    @Override
     public boolean mouseClicked(MouseButtonEvent event, boolean doubleClick) {
+        if (listening != null) {
+            KeyMapping mapping = listening;
+            listening = null;
+            int button = event.button();
+            if (button >= 2) { // middle / side mouse buttons can be bound; left and right just cancel
+                bind(mapping, InputConstants.Type.MOUSE.getOrCreate(button));
+            }
+            this.rebuildWidgets();
+            return true;
+        }
         if (event.button() == 0 && inTitleBar(event.x(), event.y())) {
             if (doubleClick) {
                 VoidClient.CONFIG.menuOffsetX = 0;
@@ -144,6 +218,10 @@ public abstract class ModuleScreen extends Screen {
 
         super.render(g, mouseX, mouseY, partialTick);
 
+        if (pageRow >= 0) {
+            g.drawCenteredString(this.font, Component.literal((page + 1) + " / " + pageCount),
+                    x + w / 2, rowY(pageRow) + (ROW_H - 9) / 2 + 1, Theme.TEXT_OFF);
+        }
         String foot = footer();
         if (foot != null) {
             g.drawCenteredString(this.font, Component.literal(foot), x + w / 2, y + h - 12, Theme.TEXT_OFF);

@@ -14,12 +14,8 @@ public class FreelookScreen extends ModuleScreen {
         ClientConfig c = VoidClient.CONFIG;
         addRenderableWidget(Widgets.toggleRow(rowX(), rowY(0), rowW(), ROW_H, "Enabled",
                 () -> c.freelookEnabled, v -> c.freelookEnabled = v));
-        addBackRow(1, "< Back");
-        return 2;
-    }
-
-    @Override
-    protected String footer() {
-        return "hold the Freelook key (Left Alt)";
+        addKeyRow(1, "Hold key", VoidClient.freelookKey);
+        addBackRow(2, "< Back");
+        return 3;
     }
 }

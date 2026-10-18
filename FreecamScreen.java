@@ -16,12 +16,8 @@ public class FreecamScreen extends ModuleScreen {
                 () -> c.freecamEnabled, v -> c.freecamEnabled = v));
         addRenderableWidget(Widgets.slider(rowX(), rowY(1), rowW(), ROW_H, "Speed", 1, 20, " b/s",
                 c.freecamSpeed, v -> c.freecamSpeed = v));
-        addBackRow(2, "< Back");
-        return 3;
-    }
-
-    @Override
-    protected String footer() {
-        return "toggle: Freecam key (F6)";
+        addKeyRow(2, "Start/stop key", VoidClient.freecamKey);
+        addBackRow(3, "< Back");
+        return 4;
     }
 }

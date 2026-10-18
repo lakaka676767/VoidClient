@@ -21,14 +21,19 @@ public final class Freecam {
     public static double x, y, z;
     public static float yaw, pitch;
 
+    /** Set by the camera hook every frame. If it stays false, the camera hook isn't loaded. */
+    public static boolean hookSeen;
+
     private static float heldYaw, heldPitch;
     private static long lastNanos;
+    private static int waitTicks;
 
     private Freecam() {}
 
     public static void toggle(Minecraft mc) {
         if (active) {
             active = false;
+            VoidClient.say(mc, "Freecam OFF");
             return;
         }
         LocalPlayer p = mc.player;
@@ -42,10 +47,22 @@ public final class Freecam {
         pitch = heldPitch = p.getXRot();
         lastNanos = System.nanoTime();
         active = true;
+        VoidClient.say(mc, "Freecam ON");
     }
 
     public static void stop() {
         active = false;
+    }
+
+    /** If freecam/freelook is on but the camera hook never ran, tell the player what to fix. */
+    public static void diagnose(Minecraft mc) {
+        if ((active || Freelook.active) && !hookSeen) {
+            if (++waitTicks == 20) {
+                VoidClient.say(mc, "Camera hook not loaded - upload ALL files from the zip, then rebuild");
+            }
+        } else {
+            waitTicks = 0;
+        }
     }
 
     /** True for the keys that should do nothing for the player while freecam is on. */

@@ -1,6 +1,14 @@
 {
   "key.voidclient.open_menu": "Open Void Client Menu",
-  "key.voidclient.zoom": "Zoom",
+  "key.voidclient.zoom": "Zoom (hold)",
   "key.voidclient.freecam": "Toggle Freecam",
-  "key.voidclient.freelook": "Freelook (hold)"
+  "key.voidclient.freelook": "Freelook (hold)",
+  "key.voidclient.toggle_fov": "Toggle FOV Changer",
+  "key.voidclient.toggle_fullbright": "Toggle Fullbright",
+  "key.voidclient.toggle_blur": "Toggle Blur",
+  "key.voidclient.toggle_crosshair": "Toggle Crosshair",
+  "key.voidclient.toggle_time": "Toggle Time Changer",
+  "key.voidclient.toggle_lowfire": "Toggle Low Fire",
+  "key.voidclient.toggle_particles": "Toggle Low Particles",
+  "key.voidclient.toggle_nofog": "Toggle No Fog"
 }

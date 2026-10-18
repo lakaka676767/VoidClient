@@ -16,8 +16,9 @@ public class LowFireScreen extends ModuleScreen {
                 () -> c.lowFireEnabled, v -> c.lowFireEnabled = v));
         addRenderableWidget(Widgets.slider(rowX(), rowY(1), rowW(), ROW_H, "Lowering", 0, 100, "%",
                 c.fireLowering, v -> c.fireLowering = v));
-        addBackRow(2, "< Back");
-        return 3;
+        addKeyRow(2, "On/off key", VoidClient.lowFireKey);
+        addBackRow(3, "< Back");
+        return 4;
     }
 
     @Override

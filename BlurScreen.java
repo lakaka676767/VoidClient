@@ -16,7 +16,8 @@ public class BlurScreen extends ModuleScreen {
                 () -> c.blurEnabled, v -> c.blurEnabled = v));
         addRenderableWidget(Widgets.slider(rowX(), rowY(1), rowW(), ROW_H, "Blur", 1, 100, "%",
                 c.blurPercent, v -> c.blurPercent = v));
-        addBackRow(2, "< Back");
-        return 3;
+        addKeyRow(2, "On/off key", VoidClient.blurKey);
+        addBackRow(3, "< Back");
+        return 4;
     }
 }

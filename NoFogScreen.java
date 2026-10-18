@@ -14,8 +14,9 @@ public class NoFogScreen extends ModuleScreen {
         ClientConfig c = VoidClient.CONFIG;
         addRenderableWidget(Widgets.toggleRow(rowX(), rowY(0), rowW(), ROW_H, "Enabled",
                 () -> c.noFogEnabled, v -> c.noFogEnabled = v));
-        addBackRow(1, "< Back");
-        return 2;
+        addKeyRow(1, "On/off key", VoidClient.noFogKey);
+        addBackRow(2, "< Back");
+        return 3;
     }
 
     @Override

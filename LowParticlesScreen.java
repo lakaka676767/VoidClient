@@ -17,8 +17,9 @@ public class LowParticlesScreen extends ModuleScreen {
         // two-step slider: left = Decreased, right = Minimal (fewest particles)
         addRenderableWidget(Widgets.slider(rowX(), rowY(1), rowW(), ROW_H, "Level", 0, 1,
                 v -> v == 0 ? "Decreased" : "Minimal", c.particleLevel, v -> c.particleLevel = v));
-        addBackRow(2, "< Back");
-        return 3;
+        addKeyRow(2, "On/off key", VoidClient.particlesKey);
+        addBackRow(3, "< Back");
+        return 4;
     }
 
     @Override

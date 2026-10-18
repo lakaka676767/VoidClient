@@ -8,27 +8,32 @@ import java.util.function.BooleanSupplier;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-/** Main menu: click a module's name to toggle it, click ">" for that module's own settings GUI. */
+/** Main menu, two pages. Click a name to toggle the module, click ">" for its own settings (and key bind). */
 public class VoidMenuScreen extends ModuleScreen {
     public VoidMenuScreen(Screen parent) {
         super("Void Client", parent);
+        this.pageCount = 2;
     }
 
     @Override
     protected int addRows() {
         ClientConfig c = VoidClient.CONFIG;
-        module(0, "FOV Changer", () -> c.fovEnabled, v -> c.fovEnabled = v, () -> new FovScreen(this));
-        module(1, "Fullbright", () -> c.fullbrightEnabled, v -> c.fullbrightEnabled = v, () -> new FullbrightScreen(this));
-        module(2, "Blur", () -> c.blurEnabled, v -> c.blurEnabled = v, () -> new BlurScreen(this));
-        module(3, "Crosshair", () -> c.crosshairEnabled, v -> c.crosshairEnabled = v, () -> new CrosshairScreen(this));
-        module(4, "Time Changer", () -> c.timeEnabled, v -> c.timeEnabled = v, () -> new TimeScreen(this));
-        module(5, "Low Fire", () -> c.lowFireEnabled, v -> c.lowFireEnabled = v, () -> new LowFireScreen(this));
-        module(6, "Low Particles", () -> c.lowParticlesEnabled, v -> c.lowParticlesEnabled = v, () -> new LowParticlesScreen(this));
-        module(7, "No Fog", () -> c.noFogEnabled, v -> c.noFogEnabled = v, () -> new NoFogScreen(this));
-        module(8, "Freecam", () -> c.freecamEnabled, v -> c.freecamEnabled = v, () -> new FreecamScreen(this));
-        module(9, "Freelook", () -> c.freelookEnabled, v -> c.freelookEnabled = v, () -> new FreelookScreen(this));
-        addBackRow(10, "Close");
-        return 11;
+        if (page == 0) {
+            module(0, "FOV Changer", () -> c.fovEnabled, v -> c.fovEnabled = v, () -> new FovScreen(this));
+            module(1, "Fullbright", () -> c.fullbrightEnabled, v -> c.fullbrightEnabled = v, () -> new FullbrightScreen(this));
+            module(2, "Blur", () -> c.blurEnabled, v -> c.blurEnabled = v, () -> new BlurScreen(this));
+            module(3, "Crosshair", () -> c.crosshairEnabled, v -> c.crosshairEnabled = v, () -> new CrosshairScreen(this));
+            module(4, "Time Changer", () -> c.timeEnabled, v -> c.timeEnabled = v, () -> new TimeScreen(this));
+        } else {
+            module(0, "Low Fire", () -> c.lowFireEnabled, v -> c.lowFireEnabled = v, () -> new LowFireScreen(this));
+            module(1, "Low Particles", () -> c.lowParticlesEnabled, v -> c.lowParticlesEnabled = v, () -> new LowParticlesScreen(this));
+            module(2, "No Fog", () -> c.noFogEnabled, v -> c.noFogEnabled = v, () -> new NoFogScreen(this));
+            module(3, "Freecam", () -> c.freecamEnabled, v -> c.freecamEnabled = v, () -> new FreecamScreen(this));
+            module(4, "Freelook", () -> c.freelookEnabled, v -> c.freelookEnabled = v, () -> new FreelookScreen(this));
+        }
+        addPageRow(5);
+        addBackRow(6, "Close");
+        return 7;
     }
 
     private void module(int row, String name, BooleanSupplier on, Consumer<Boolean> setter, Supplier<Screen> settings) {
@@ -40,6 +45,6 @@ public class VoidMenuScreen extends ModuleScreen {
 
     @Override
     protected String footer() {
-        return "click > for settings";
+        return "click > for settings and keys";
     }
 }

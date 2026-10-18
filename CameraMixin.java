@@ -27,6 +27,7 @@ public abstract class CameraMixin {
     @Inject(method = "setup", at = @At("HEAD"))
     private void voidclient$cameraHead(Level level, Entity entity, boolean isDetached, boolean reversed,
                                        float partialTick, CallbackInfo ci) {
+        Freecam.hookSeen = true;
         if (Freecam.active) {
             Freecam.frameUpdate(Minecraft.getInstance());
         } else if (Freelook.active) {
