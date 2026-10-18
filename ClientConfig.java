@@ -60,6 +60,9 @@ public class ClientConfig {
     public boolean freecamEnabled = false;
     public int freecamSpeed = 8;
 
+    // Freelook: hold a key to look around without turning your character
+    public boolean freelookEnabled = false;
+
     // Where the menu panel sits: offset from the screen centre, set by dragging the title bar
     public int menuOffsetX = 0;
     public int menuOffsetY = 0;

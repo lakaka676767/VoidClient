@@ -1,5 +1,6 @@
 {
   "key.voidclient.open_menu": "Open Void Client Menu",
   "key.voidclient.zoom": "Zoom",
-  "key.voidclient.freecam": "Toggle Freecam"
+  "key.voidclient.freecam": "Toggle Freecam",
+  "key.voidclient.freelook": "Freelook (hold)"
 }

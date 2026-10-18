@@ -16,6 +16,7 @@ public class VoidClient implements ClientModInitializer {
     public static KeyMapping openMenuKey;
     public static KeyMapping zoomKey;
     public static KeyMapping freecamKey;
+    public static KeyMapping freelookKey;
 
     @Override
     public void onInitializeClient() {
@@ -38,6 +39,12 @@ public class VoidClient implements ClientModInitializer {
                 GLFW.GLFW_KEY_F6,
                 KeyMapping.Category.MISC));
 
+        freelookKey = KeyBindingHelper.registerKeyBinding(new KeyMapping(
+                "key.voidclient.freelook",
+                InputConstants.Type.KEYSYM,
+                GLFW.GLFW_KEY_LEFT_ALT,
+                KeyMapping.Category.MISC));
+
         // Custom crosshair: when it's on we draw ours and skip the vanilla one.
         HudElementRegistry.replaceElement(VanillaHudElements.CROSSHAIR, original -> (graphics, tickCounter) -> {
             if (CONFIG.crosshairEnabled) {
@@ -54,7 +61,11 @@ public class VoidClient implements ClientModInitializer {
             while (freecamKey.consumeClick()) {
                 if (CONFIG.freecamEnabled) Freecam.toggle(client);
             }
-            if (client.player == null) Freecam.stop();
+            if (client.player == null) {
+                Freecam.stop();
+                Freelook.stop();
+            }
+            Freelook.tick(client);
             Effects.tick(client);
         });
 
