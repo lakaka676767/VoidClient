@@ -56,6 +56,10 @@ public class ClientConfig {
     // No fog: removes all fog (distance, underwater, lava)
     public boolean noFogEnabled = false;
 
+    // Freecam: camera flies around while your character stays put (blocks per second)
+    public boolean freecamEnabled = false;
+    public int freecamSpeed = 8;
+
     // Where the menu panel sits: offset from the screen centre, set by dragging the title bar
     public int menuOffsetX = 0;
     public int menuOffsetY = 0;
@@ -109,5 +113,6 @@ public class ClientConfig {
         timeOfDay = clamp(timeOfDay, 0, 23999);
         fireLowering = clamp(fireLowering, 0, 100);
         particleLevel = clamp(particleLevel, 0, 1);
+        freecamSpeed = clamp(freecamSpeed, 1, 20);
     }
 }

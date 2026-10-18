@@ -25,8 +25,9 @@ public class VoidMenuScreen extends ModuleScreen {
         module(5, "Low Fire", () -> c.lowFireEnabled, v -> c.lowFireEnabled = v, () -> new LowFireScreen(this));
         module(6, "Low Particles", () -> c.lowParticlesEnabled, v -> c.lowParticlesEnabled = v, () -> new LowParticlesScreen(this));
         module(7, "No Fog", () -> c.noFogEnabled, v -> c.noFogEnabled = v, () -> new NoFogScreen(this));
-        addBackRow(8, "Close");
-        return 9;
+        module(8, "Freecam", () -> c.freecamEnabled, v -> c.freecamEnabled = v, () -> new FreecamScreen(this));
+        addBackRow(9, "Close");
+        return 10;
     }
 
     private void module(int row, String name, BooleanSupplier on, Consumer<Boolean> setter, Supplier<Screen> settings) {
