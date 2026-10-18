@@ -63,6 +63,16 @@ public class ClientConfig {
     // Freelook: hold a key to look around without turning your character
     public boolean freelookEnabled = false;
 
+    // Render Dip: render distance drops for a few seconds, then comes back by itself
+    public boolean renderDipEnabled = false;
+    public int renderDipSeconds = 5;
+    public int renderDipDistance = 2;
+
+    // Main menu windows (Visual / Effects / Camera): position and folded state. -1 = default spot
+    public int[] windowX = {-1, -1, -1};
+    public int[] windowY = {-1, -1, -1};
+    public boolean[] windowCollapsed = new boolean[3];
+
     // Where the menu panel sits: offset from the screen centre, set by dragging the title bar
     public int menuOffsetX = 0;
     public int menuOffsetY = 0;
@@ -117,5 +127,10 @@ public class ClientConfig {
         fireLowering = clamp(fireLowering, 0, 100);
         particleLevel = clamp(particleLevel, 0, 1);
         freecamSpeed = clamp(freecamSpeed, 1, 20);
+        renderDipSeconds = clamp(renderDipSeconds, 1, 60);
+        renderDipDistance = clamp(renderDipDistance, 2, 12);
+        if (windowX == null || windowX.length != 3) windowX = new int[]{-1, -1, -1};
+        if (windowY == null || windowY.length != 3) windowY = new int[]{-1, -1, -1};
+        if (windowCollapsed == null || windowCollapsed.length != 3) windowCollapsed = new boolean[3];
     }
 }

@@ -17,6 +17,8 @@ public final class Effects {
     private static Integer savedBlur;
     private static ParticleStatus savedParticles;
     private static boolean fogTouched;
+    private static Integer savedRenderDistance;
+    private static long dipEnd;
 
     private Effects() {}
 
@@ -62,6 +64,28 @@ public final class Effects {
             FogRendererAccessor.voidclient$setFogEnabled(true);
             fogTouched = false;
         }
+
+        // ---- Render Dip: render distance goes down for a few seconds, then comes back by itself ----
+        if (c.renderDipEnabled) {
+            long now = System.currentTimeMillis();
+            if (savedRenderDistance == null) {
+                savedRenderDistance = mc.options.renderDistance().get();
+                dipEnd = now + c.renderDipSeconds * 1000L;
+            }
+            if (now >= dipEnd) {
+                mc.options.renderDistance().set(savedRenderDistance);
+                savedRenderDistance = null;
+                c.renderDipEnabled = false;
+                c.save();
+                VoidClient.say(mc, "Render distance restored");
+            } else if (mc.options.renderDistance().get() != c.renderDipDistance) {
+                mc.options.renderDistance().set(c.renderDipDistance);
+            }
+        } else if (savedRenderDistance != null) {
+            // switched off early: put it back right away
+            mc.options.renderDistance().set(savedRenderDistance);
+            savedRenderDistance = null;
+        }
     }
 
     public static void restore(Minecraft mc) {
@@ -81,6 +105,10 @@ public final class Effects {
         if (fogTouched) {
             FogRendererAccessor.voidclient$setFogEnabled(true);
             fogTouched = false;
+        }
+        if (savedRenderDistance != null) {
+            mc.options.renderDistance().set(savedRenderDistance);
+            savedRenderDistance = null;
         }
     }
 

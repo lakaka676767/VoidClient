@@ -26,7 +26,7 @@ public class VoidClient implements ClientModInitializer {
     public static KeyMapping freelookKey;
 
     // module on/off keys (unbound until you pick one in the module's settings screen)
-    public static KeyMapping fovKey, fullbrightKey, blurKey, crosshairKey, timeKey, lowFireKey, particlesKey, noFogKey;
+    public static KeyMapping fovKey, fullbrightKey, blurKey, crosshairKey, timeKey, lowFireKey, particlesKey, noFogKey, renderDipKey;
 
     private static KeyMapping register(String name, int defaultKey) {
         return KeyBindingHelper.registerKeyBinding(new KeyMapping(
@@ -66,6 +66,7 @@ public class VoidClient implements ClientModInitializer {
         lowFireKey = register("key.voidclient.toggle_lowfire", none);
         particlesKey = register("key.voidclient.toggle_particles", none);
         noFogKey = register("key.voidclient.toggle_nofog", none);
+        renderDipKey = register("key.voidclient.toggle_renderdip", none);
 
         // Custom crosshair: when it's on we draw ours and skip the vanilla one.
         HudElementRegistry.replaceElement(VanillaHudElements.CROSSHAIR, original -> (graphics, tickCounter) -> {
@@ -89,6 +90,7 @@ public class VoidClient implements ClientModInitializer {
             toggleOnKey(client, lowFireKey, "Low Fire", () -> CONFIG.lowFireEnabled, v -> CONFIG.lowFireEnabled = v);
             toggleOnKey(client, particlesKey, "Low Particles", () -> CONFIG.lowParticlesEnabled, v -> CONFIG.lowParticlesEnabled = v);
             toggleOnKey(client, noFogKey, "No Fog", () -> CONFIG.noFogEnabled, v -> CONFIG.noFogEnabled = v);
+            toggleOnKey(client, renderDipKey, "Render Dip", () -> CONFIG.renderDipEnabled, v -> CONFIG.renderDipEnabled = v);
 
             while (freecamKey.consumeClick()) {
                 if (CONFIG.freecamEnabled) {

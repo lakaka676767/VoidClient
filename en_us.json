@@ -10,5 +10,6 @@
   "key.voidclient.toggle_time": "Toggle Time Changer",
   "key.voidclient.toggle_lowfire": "Toggle Low Fire",
   "key.voidclient.toggle_particles": "Toggle Low Particles",
-  "key.voidclient.toggle_nofog": "Toggle No Fog"
+  "key.voidclient.toggle_nofog": "Toggle No Fog",
+  "key.voidclient.toggle_renderdip": "Start Render Dip"
 }
