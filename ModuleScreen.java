@@ -53,6 +53,14 @@ public abstract class ModuleScreen extends Screen {
         panelY = this.height / 6;
         int rows = addRows();
         panelH = HEADER_H + rows * STEP + PAD + (footer() != null ? 12 : 0);
+
+        // Centre taller panels on screen, then lay the rows out again at the final position.
+        int centred = Math.max(4, (this.height - panelH) / 2);
+        if (centred != panelY) {
+            panelY = centred;
+            this.clearWidgets();
+            addRows();
+        }
     }
 
     @Override

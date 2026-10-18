@@ -20,8 +20,11 @@ public class VoidMenuScreen extends ModuleScreen {
         module(0, "FOV Changer", () -> c.fovEnabled, v -> c.fovEnabled = v, () -> new FovScreen(this));
         module(1, "Fullbright", () -> c.fullbrightEnabled, v -> c.fullbrightEnabled = v, () -> new FullbrightScreen(this));
         module(2, "Blur", () -> c.blurEnabled, v -> c.blurEnabled = v, () -> new BlurScreen(this));
-        addBackRow(3, "Close");
-        return 4;
+        module(3, "Crosshair", () -> c.crosshairEnabled, v -> c.crosshairEnabled = v, () -> new CrosshairScreen(this));
+        module(4, "Time Changer", () -> c.timeEnabled, v -> c.timeEnabled = v, () -> new TimeScreen(this));
+        module(5, "Low Fire", () -> c.lowFireEnabled, v -> c.lowFireEnabled = v, () -> new LowFireScreen(this));
+        addBackRow(6, "Close");
+        return 7;
     }
 
     private void module(int row, String name, BooleanSupplier on, Consumer<Boolean> setter, Supplier<Screen> settings) {

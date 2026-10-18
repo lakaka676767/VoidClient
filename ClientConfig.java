@@ -31,6 +31,24 @@ public class ClientConfig {
     public boolean blurEnabled = false;
     public int blurPercent = 50;
 
+    // Custom crosshair
+    public boolean crosshairEnabled = false;
+    public int crosshairSize = 6;       // length of each arm, in GUI pixels
+    public int crosshairThickness = 1;
+    public int crosshairGap = 3;        // empty space around the centre
+    public int crosshairRed = 255;
+    public int crosshairGreen = 255;
+    public int crosshairBlue = 255;
+    public boolean crosshairDot = false;
+
+    // Time changer (client-side only): 0 = 6:00 sunrise, 6000 = noon, 12000 = sunset, 18000 = midnight
+    public boolean timeEnabled = false;
+    public int timeOfDay = 6000;
+
+    // Low fire: how far the on-screen fire is pushed down (0-100%)
+    public boolean lowFireEnabled = false;
+    public int fireLowering = 60;
+
     private static Path path() {
         return FabricLoader.getInstance().getConfigDir().resolve("voidclient.json");
     }
@@ -71,5 +89,13 @@ public class ClientConfig {
         zoomFactor = clamp(zoomFactor, ZOOM_MIN, ZOOM_MAX);
         fullbrightPercent = clamp(fullbrightPercent, 1, 100);
         blurPercent = clamp(blurPercent, 1, 100);
+        crosshairSize = clamp(crosshairSize, 1, 20);
+        crosshairThickness = clamp(crosshairThickness, 1, 4);
+        crosshairGap = clamp(crosshairGap, 0, 10);
+        crosshairRed = clamp(crosshairRed, 0, 255);
+        crosshairGreen = clamp(crosshairGreen, 0, 255);
+        crosshairBlue = clamp(crosshairBlue, 0, 255);
+        timeOfDay = clamp(timeOfDay, 0, 23999);
+        fireLowering = clamp(fireLowering, 0, 100);
     }
 }

@@ -2,6 +2,6 @@
   "required": true,
   "package": "com.voidclient.mixin",
   "compatibilityLevel": "JAVA_21",
-  "client": ["GameRendererMixin", "OptionInstanceAccessor"],
+  "client": ["GameRendererMixin", "OptionInstanceAccessor", "ScreenEffectRendererMixin", "TimelineMixin"],
   "injectors": { "defaultRequire": 1 }
 }
