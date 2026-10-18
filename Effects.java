@@ -1,8 +1,10 @@
 package com.voidclient;
 
+import com.voidclient.mixin.FogRendererAccessor;
 import com.voidclient.mixin.OptionInstanceAccessor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.OptionInstance;
+import net.minecraft.server.level.ParticleStatus;
 
 /**
  * Applies fullbright and blur by writing straight into the game's own options,
@@ -13,6 +15,8 @@ public final class Effects {
 
     private static Double savedGamma;
     private static Integer savedBlur;
+    private static ParticleStatus savedParticles;
+    private static boolean fogTouched;
 
     private Effects() {}
 
@@ -39,6 +43,25 @@ public final class Effects {
             setRaw(mc.options.menuBackgroundBlurriness(), savedBlur);
             savedBlur = null;
         }
+
+        // ---- Low particles: switches the game's own particle setting, puts yours back when off ----
+        if (c.lowParticlesEnabled) {
+            if (savedParticles == null) savedParticles = mc.options.particles().get();
+            ParticleStatus target = c.particleLevel == 0 ? ParticleStatus.DECREASED : ParticleStatus.MINIMAL;
+            if (mc.options.particles().get() != target) mc.options.particles().set(target);
+        } else if (savedParticles != null) {
+            mc.options.particles().set(savedParticles);
+            savedParticles = null;
+        }
+
+        // ---- No fog: turns the game's global fog switch off while the module is on ----
+        if (c.noFogEnabled) {
+            FogRendererAccessor.voidclient$setFogEnabled(false);
+            fogTouched = true;
+        } else if (fogTouched) {
+            FogRendererAccessor.voidclient$setFogEnabled(true);
+            fogTouched = false;
+        }
     }
 
     public static void restore(Minecraft mc) {
@@ -50,6 +73,14 @@ public final class Effects {
         if (savedBlur != null) {
             setRaw(mc.options.menuBackgroundBlurriness(), savedBlur);
             savedBlur = null;
+        }
+        if (savedParticles != null) {
+            mc.options.particles().set(savedParticles);
+            savedParticles = null;
+        }
+        if (fogTouched) {
+            FogRendererAccessor.voidclient$setFogEnabled(true);
+            fogTouched = false;
         }
     }
 

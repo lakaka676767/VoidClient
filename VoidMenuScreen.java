@@ -23,8 +23,10 @@ public class VoidMenuScreen extends ModuleScreen {
         module(3, "Crosshair", () -> c.crosshairEnabled, v -> c.crosshairEnabled = v, () -> new CrosshairScreen(this));
         module(4, "Time Changer", () -> c.timeEnabled, v -> c.timeEnabled = v, () -> new TimeScreen(this));
         module(5, "Low Fire", () -> c.lowFireEnabled, v -> c.lowFireEnabled = v, () -> new LowFireScreen(this));
-        addBackRow(6, "Close");
-        return 7;
+        module(6, "Low Particles", () -> c.lowParticlesEnabled, v -> c.lowParticlesEnabled = v, () -> new LowParticlesScreen(this));
+        module(7, "No Fog", () -> c.noFogEnabled, v -> c.noFogEnabled = v, () -> new NoFogScreen(this));
+        addBackRow(8, "Close");
+        return 9;
     }
 
     private void module(int row, String name, BooleanSupplier on, Consumer<Boolean> setter, Supplier<Screen> settings) {

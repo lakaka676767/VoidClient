@@ -49,6 +49,13 @@ public class ClientConfig {
     public boolean lowFireEnabled = false;
     public int fireLowering = 60;
 
+    // Low particles: uses the game's own particle setting (0 = Decreased, 1 = Minimal)
+    public boolean lowParticlesEnabled = false;
+    public int particleLevel = 1;
+
+    // No fog: removes all fog (distance, underwater, lava)
+    public boolean noFogEnabled = false;
+
     // Where the menu panel sits: offset from the screen centre, set by dragging the title bar
     public int menuOffsetX = 0;
     public int menuOffsetY = 0;
@@ -101,5 +108,6 @@ public class ClientConfig {
         crosshairBlue = clamp(crosshairBlue, 0, 255);
         timeOfDay = clamp(timeOfDay, 0, 23999);
         fireLowering = clamp(fireLowering, 0, 100);
+        particleLevel = clamp(particleLevel, 0, 1);
     }
 }
