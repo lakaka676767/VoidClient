@@ -49,6 +49,10 @@ public class ClientConfig {
     public boolean lowFireEnabled = false;
     public int fireLowering = 60;
 
+    // Where the menu panel sits: offset from the screen centre, set by dragging the title bar
+    public int menuOffsetX = 0;
+    public int menuOffsetY = 0;
+
     private static Path path() {
         return FabricLoader.getInstance().getConfigDir().resolve("voidclient.json");
     }
